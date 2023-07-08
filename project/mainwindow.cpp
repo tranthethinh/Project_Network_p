@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->logoutButton, &QPushButton::clicked, this, &MainWindow::handleLogoutButton);
     connect(ui->receiveButton, &QPushButton::clicked, this, &MainWindow::handleReceiveButton);
     connect(ui->signupButton, &QPushButton::clicked, this, &MainWindow::handleSignupButton);
-
+    connect(ui->backButton, &QPushButton::clicked, this, &MainWindow::handleBackButton);
     //Step 1: Construct socket
     client_sock = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -84,13 +84,16 @@ void MainWindow::handleLoginButton()
     if (k == 1) {
         ui->outputTextEdit->append("OK");
         isLogin = true;
+        ui->stackedWidget->setCurrentIndex(1);
     } else if (k == 0) {
         ui->outputTextEdit->append("Account not ready");
     } else if (k == 2) {
         ui->outputTextEdit->append("Not OK");
     }
 }
-
+void MainWindow::handleBackButton(){
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
+}
 void MainWindow::handleLogoutButton()
 {
     int choice =2;
@@ -103,6 +106,7 @@ void MainWindow::handleLogoutButton()
 
     isLogin = false;
     ui->outputTextEdit->append("Logged out");
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::handleReceiveButton()
@@ -126,7 +130,8 @@ void MainWindow::handleReceiveButton()
     }
 
     buff[bytes_received] = '\0';
-    ui->outputTextEdit->append(QString(buff));
+    ui->stackedWidget->setCurrentIndex(2);
+    ui->TextQuestion->append(QString(buff));
 }
 
 void MainWindow::handleSignupButton()

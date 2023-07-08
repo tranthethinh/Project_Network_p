@@ -22,7 +22,7 @@ private slots:
     void handleReceiveButton();
     void handleSignupButton();
     int establishConnection(int client_sock, struct sockaddr* server_addr, socklen_t addr_len);
-
+    void handleBackButton();
 
 private:
     Ui::MainWindow *ui;
